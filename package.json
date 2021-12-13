@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bootstrap": "^4.6.1",
+    "cookie-consent-tools": "^0.1.4"
+  }
+}
