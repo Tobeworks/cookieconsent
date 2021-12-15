@@ -1,0 +1,58 @@
+#gdpr-banner {
+  background-color: #ededed;
+  padding: 12px;
+  position: fixed;
+  bottom: 0;
+  z-index: 9999;
+  margin: 0;
+  left: 0;
+ }
+
+.gdpr-cookieconsent-show{
+    display: block;
+}
+
+.gdpr-cookieconsent-hidden{
+    display: none;
+    visibility: hidden;
+}
+
+
+
+#gdpr-banner div.gdpr-banner_wrapper {
+}
+
+#gdpr-banner div.gdpr-banner_wrapper h2.gdpr-banner-clipped {
+  font-size: 25px;
+  margin: 0;
+}
+
+#gdpr-banner div.gdpr-banner_wrapper div.gdpr-banner_text {
+  font-size: 0.9em;
+}
+
+#gdpr-banner div.gdpr-banner_wrapper div.gdpr-actions-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  padding: 15px 0;
+  gap: 12px;
+}
+
+#gdpr-banner div.gdpr-banner_wrapper .gdpr-button {
+  background-color: #be140f;
+  border: 1px solid black;
+  padding: 9px;
+  color: white;
+  cursor: pointer;
+}
+
+#gdpr-banner div.gdpr-banner_wrapper .gdpr-button:hover {
+  background-color: #df4742;
+}
+
+#gdpr-banner-decline {
+}
+
+#gdpr-banner-accept {
+}

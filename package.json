@@ -1,6 +1,14 @@
 {
   "dependencies": {
     "bootstrap": "^4.6.1",
-    "cookie-consent-tools": "^0.1.4"
+    "cookie-consent-tools": "^0.1.4",
+    "js-cookie": "^3.0.1"
+  },
+  "devDependencies": {
+    "rollup": "^2.61.1",
+    "serve": "^13.0.2"
+  },"scripts": {
+    "start":"serve public",
+    "build":"rollup src/app.js --format umd --name 'bundle' --file public/dist/bundle.js"
   }
 }
