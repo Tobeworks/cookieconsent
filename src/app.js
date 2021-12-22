@@ -1,9 +1,11 @@
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
+import {setDemoCookies} from './demo';
 import './scss/styles.scss';
 
 
-Cookies.set('foo',{foo:'bar'});
-console.log(Cookies.get('foo').foo);
+setDemoCookies();
+
+
 
 const cookieConsenti18n = {};
 const cookieConsentOptions = {
@@ -31,7 +33,6 @@ const closeCookieConsent = () => {
     bannerMainElement.classList.add("gdpr-cookieconsent-hidden");
 }
 
-
 bannerAcceptButton.addEventListener('click', e => {
     e.preventDefault();
     closeCookieConsent();
@@ -47,3 +48,4 @@ bannerEditButton.addEventListener('click', e => {
     e.preventDefault();
     console.log('klicked ', e);
 });
+
