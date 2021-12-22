@@ -1,13 +1,18 @@
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
+import './scss/styles.scss';
 
-console.log(Cookies.get('foo'));
+
+Cookies.set('foo',{foo:'bar'});
+console.log(Cookies.get('foo').foo);
 
 const cookieConsenti18n = {};
 const cookieConsentOptions = {
     mainElement: "gdpr-banner",
     accept: 'gdpr-banner-accept',
     decline: 'gdpr-banner-decline',
-    edit: 'gdpr-banner-edit'
+    edit: 'gdpr-banner-edit',
+    cookies:{},
+    scripts:{}
 };
 
 /* bindings */

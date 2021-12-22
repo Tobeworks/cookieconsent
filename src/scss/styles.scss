@@ -1,0 +1,59 @@
+//@import './_variables';
+$primaryColor: #ededed;
+$secondaryColor: #be140f;
+$borders: rgba(180, 180, 180, 0.411);
+
+#gdpr-banner {
+  background-color: $primaryColor;
+  padding: 12px;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  margin: 0;
+  left: 0;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid $borders;
+
+  .gdpr-cookieconsent-show {
+    display: block;
+  }
+
+  .gdpr-cookieconsent-hidden {
+    display: none;
+    visibility: hidden;
+  }
+  h2.gdpr-banner-clipped {
+    font-size: 25px;
+    margin: 0;
+  }
+
+  div.gdpr-banner_text {
+    font-size: 0.9em;
+  }
+  div.gdpr-actions-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding: 15px 0;
+    gap: 12px;
+  }
+  .gdpr-button {
+    background-color: $secondaryColor;
+    border: 1px solid black;
+    padding: 9px;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #df4742;
+    }
+  }
+}
+
+// #gdpr-banner div.gdpr-banner_wrapper {
+// }
+// #gdpr-banner-decline {
+// }
+
+// #gdpr-banner-accept {
+// }
