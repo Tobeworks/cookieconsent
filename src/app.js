@@ -1,5 +1,6 @@
+
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
-import {setDemoCookies} from './demo';
+import {setDemoCookies, showDemoCookies, removeDemoCookies} from './demo';
 import './scss/styles.scss';
 
 
@@ -13,7 +14,7 @@ const cookieConsentOptions = {
     accept: 'gdpr-banner-accept',
     decline: 'gdpr-banner-decline',
     edit: 'gdpr-banner-edit',
-    cookies:{},
+    cookies: ['_gat_gtag_UA_338528_1', '_ga','_gid'],
     scripts:{}
 };
 
@@ -48,4 +49,16 @@ bannerEditButton.addEventListener('click', e => {
     e.preventDefault();
     console.log('klicked ', e);
 });
+
+const showAllCookies = () =>{
+  const cookies =   document.cookie.split(';').reduce((cookies, cookie) => {
+        const [name, value] = cookie.split('=').map(c => c.trim());
+        return { ...cookies, [name]: value };
+    }, {});
+
+    return JSON.stringify(cookies);
+}
+
+
+export { showDemoCookies, removeDemoCookies, showAllCookies};
 

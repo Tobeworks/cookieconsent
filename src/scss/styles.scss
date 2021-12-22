@@ -18,10 +18,7 @@ $borders: rgba(180, 180, 180, 0.411);
     display: block;
   }
 
-  .gdpr-cookieconsent-hidden {
-    display: none;
-    visibility: hidden;
-  }
+
   h2.gdpr-banner-clipped {
     font-size: 25px;
     margin: 0;
@@ -49,7 +46,10 @@ $borders: rgba(180, 180, 180, 0.411);
     }
   }
 }
-
+  .gdpr-cookieconsent-hidden {
+    display: none;
+    visibility: hidden;
+  }
 // #gdpr-banner div.gdpr-banner_wrapper {
 // }
 // #gdpr-banner-decline {
