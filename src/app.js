@@ -14,9 +14,14 @@ const cookieConsentOptions = {
     accept: 'gdpr-banner-accept',
     decline: 'gdpr-banner-decline',
     edit: 'gdpr-banner-edit',
-    cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid','testscript'],
+    cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid', 'testscript'],
     scripts: {
-        head: ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1', 'https://www.googletagservices.com/tag/js/gpt.js', 'https://www.google-analytics.com/analytics.js', 'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js','https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js'],body:[]} 
+        head: ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1', 
+        'https://www.googletagservices.com/tag/js/gpt.js',
+        'https://www.google-analytics.com/analytics.js', 
+        'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js',
+        'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js'], body: []
+    }
 };
 
 /* bindings */
@@ -62,13 +67,8 @@ const showAllCookies = () => {
 
 const deleteAllCookies = () => {
     const allCookies = JSON.parse(showAllCookies());
-    let res;
-    console.log(Cookies.get());
     Object.entries(allCookies).forEach(([key, value]) => {
-        
-        console.log(Cookies.get(key));
-        Cookies.remove(key, { path: '/',domain:'.restposten24.de' });
-        document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        Cookies.remove(key, { path: '/', domain: '.restposten24.de' });
     });
 }
 
@@ -79,27 +79,33 @@ const removeScripts = () => {
     const body = document.getElementsByTagName('body');
 
     allLoadedScripts.forEach((val, key) => {
-        if (val.src !== ''){
-            if (cookieConsentOptions.scripts.body.includes(val.src)){
+        if (val.src !== '') {
+            if (cookieConsentOptions.scripts.body.includes(val.src)) {
                 body[0].removeChild(allLoadedScripts[key]);
             }
             if (cookieConsentOptions.scripts.head.includes(val.src)) {
                 head[0].removeChild(allLoadedScripts[key]);
-            }            
+            }
         }
     });
-   // console.log(getScripts());
+    // console.log(getScripts());
 }
 const getScripts = () => {
-  return  JSON.stringify(cookieConsentOptions.scripts);
+    return JSON.stringify(cookieConsentOptions.scripts);
 }
 
+const removeCookiesAndScripts = () => {
+    removeScripts();
+    deleteAllCookies()
+}
 
-export { 
-    showDemoCookies, 
-    removeDemoCookies, 
-    showAllCookies, 
-    deleteAllCookies, 
-    removeScripts, 
-    getScripts };
+export {
+    showDemoCookies,
+    removeDemoCookies,
+    showAllCookies,
+    deleteAllCookies,
+    removeScripts,
+    getScripts,
+    removeCookiesAndScripts 
+};
 

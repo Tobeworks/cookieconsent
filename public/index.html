@@ -7,15 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Consent</title>
     <script src="https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js"></script>
-    <link rel="stylesheet" href="../node_modules/cookie-consent-tools/dist/cookie-consent-tools.min.css" />
     <link rel="stylesheet" href="https://dev.restposten24.de/templates/rp24_bs4/css/style.css">
     <link rel="stylesheet" href="./dist/styles/bundle.css">
     <script src="dist/bundle.umd.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log(gdpr);
-        });
-    </script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-338528-1"></script>
@@ -26,7 +20,7 @@
 
     gtag('config', 'UA-338528-1');
 </script>
-<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script async src='https://www.googletagservices.com/tag/js/gpt.js'></script>
 <script>
     var googletag = googletag || {};
     googletag.cmd = googletag.cmd || [];
@@ -40,10 +34,20 @@
         googletag.enableServices();
     });
 </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOMContentLoaded');
+        });
+
+        window.addEventListener('load', () => {
+                window.gdpr.removeCookiesAndScripts();
+        });
+
+    </script>
 
 </head>
 
-<body onload="window.gdpr.removeScripts();window.gdpr.deleteAllCookies()">
+<body onload="">
     <div id="gdpr-banner" class="">
         <div class="gdpr-banner_wrapper">
             <h2 class="gdpr-banner-clipped">Dateneinstellungen - Informationen und Verwaltung</h2>
@@ -101,7 +105,6 @@
     <h3>Foo</h3>
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis iste voluptates minima, cum ea magni possimus, velit assumenda consectetur sequi at quas quasi eveniet, eum qui dolores facilis officia dolorem.
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, assumenda perspiciatis. Fuga reiciendis minus quidem numquam inventore veritatis similique necessitatibus, quae, obcaecati deserunt quas blanditiis vero tempore sit ipsam laudantium.
-
 
 </body>
 
