@@ -1,6 +1,6 @@
 
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
-import {setDemoCookies, showDemoCookies, removeDemoCookies} from './demo';
+import { setDemoCookies, showDemoCookies, removeDemoCookies } from './demo';
 import './scss/styles.scss';
 
 
@@ -14,8 +14,9 @@ const cookieConsentOptions = {
     accept: 'gdpr-banner-accept',
     decline: 'gdpr-banner-decline',
     edit: 'gdpr-banner-edit',
-    cookies: ['_gat_gtag_UA_338528_1', '_ga','_gid'],
-    scripts:{}
+    cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid','testscript'],
+    scripts: {
+        head: ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1', 'https://www.googletagservices.com/tag/js/gpt.js', 'https://www.google-analytics.com/analytics.js', 'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js','https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js'],body:[]} 
 };
 
 /* bindings */
@@ -50,15 +51,55 @@ bannerEditButton.addEventListener('click', e => {
     console.log('klicked ', e);
 });
 
-const showAllCookies = () =>{
-  const cookies =   document.cookie.split(';').reduce((cookies, cookie) => {
+const showAllCookies = () => {
+    const Cookies = document.cookie.split(';').reduce((cookies, cookie) => {
         const [name, value] = cookie.split('=').map(c => c.trim());
         return { ...cookies, [name]: value };
     }, {});
 
-    return JSON.stringify(cookies);
+    return JSON.stringify(Cookies);
+}
+
+const deleteAllCookies = () => {
+    const allCookies = JSON.parse(showAllCookies());
+    let res;
+    console.log(Cookies.get());
+    Object.entries(allCookies).forEach(([key, value]) => {
+        
+        console.log(Cookies.get(key));
+        Cookies.remove(key, { path: '/',domain:'.restposten24.de' });
+        document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    });
+}
+
+const removeScripts = () => {
+
+    const allLoadedScripts = document.querySelectorAll("script");
+    const head = document.getElementsByTagName('head');
+    const body = document.getElementsByTagName('body');
+
+    allLoadedScripts.forEach((val, key) => {
+        if (val.src !== ''){
+            if (cookieConsentOptions.scripts.body.includes(val.src)){
+                body[0].removeChild(allLoadedScripts[key]);
+            }
+            if (cookieConsentOptions.scripts.head.includes(val.src)) {
+                head[0].removeChild(allLoadedScripts[key]);
+            }            
+        }
+    });
+   // console.log(getScripts());
+}
+const getScripts = () => {
+  return  JSON.stringify(cookieConsentOptions.scripts);
 }
 
 
-export { showDemoCookies, removeDemoCookies, showAllCookies};
+export { 
+    showDemoCookies, 
+    removeDemoCookies, 
+    showAllCookies, 
+    deleteAllCookies, 
+    removeScripts, 
+    getScripts };
 

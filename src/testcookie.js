@@ -1,0 +1,1 @@
+document.cookie = "testscript=John Doe";
