@@ -69,6 +69,9 @@ const deleteAllCookies = () => {
     const allCookies = JSON.parse(showAllCookies());
     Object.entries(allCookies).forEach(([key, value]) => {
         Cookies.remove(key, { path: '/', domain: '.restposten24.de' });
+        console.log(window.location.pathname);
+        Cookies.remove(key, {
+            path: window.location.pathname, domain: window.location.hostname });
     });
 }
 
