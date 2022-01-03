@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Consent</title>
-    <script src="https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js"></script>
+    <!-- <script src="https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js"></script> -->
     <link rel="stylesheet" href="https://dev.restposten24.de/templates/rp24_bs4/css/style.css">
     <link rel="stylesheet" href="./dist/styles/bundle.css">
     <script src="dist/bundle.umd.js" defer></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-338528-1"></script>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-338528-1"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
@@ -20,7 +20,7 @@
 
     gtag('config', 'UA-338528-1');
 </script>
-<script async src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
 <script>
     var googletag = googletag || {};
     googletag.cmd = googletag.cmd || [];
@@ -40,7 +40,7 @@
         });
 
         window.addEventListener('load', () => {
-                window.gdpr.removeCookiesAndScripts();
+               window.gdpr.cookieConsentInit();
         });
 
     </script>
@@ -48,7 +48,7 @@
 </head>
 
 <body onload="">
-    <div id="gdpr-banner" class="">
+    <div id="gdpr-banner" class="gdpr-cookieconsent-hidden">
         <div class="gdpr-banner_wrapper">
             <h2 class="gdpr-banner-clipped">Dateneinstellungen - Informationen und Verwaltung</h2>
             <div class="gdpr-banner_text">
@@ -64,12 +64,19 @@
     </div>
     <h1>Foobar</h1>
     <h3>Foo</h3>
-    <a href="#!" onclick="alert(window.gdpr.showDemoCookies())">Show  Manual Cookies </a><br>
-    <a href="#!" onclick="window.gdpr.removeDemoCookies(); alert('Demo Cookies removed');alert('Cookies: '+window.gdpr.showDemoCookies())">delete manual Cookies</a><br>
-    <a href="#!" onclick="alert(window.gdpr.showAllCookies())">Show ALL cookies</a><br>
-<a href="#!" onclick="alert(window.gdpr.deleteAllCookies()); alert(window.gdpr.showAllCookies())">Delete ALL cookies</a><br>
-<a href="#!" onclick="alert(window.gdpr.getScripts());">Show Scripts</a><br>
-<a href="#!" onclick="window.gdpr.removeScripts();">Remove Scripts</a><br>
+    <ul>
+        <li><a href="#!" onclick="alert(window.gdpr.showAllCookies())">Show ALL cookies</a></li>
+        <li><a href="#!" onclick="window.gdpr.removeDemoCookies(); window.gdpr.removeCookiesAndScripts(); alert(window.gdpr.showAllCookies())">Delete ALL cookies</a></li>
+        <li><a href="#!" onclick="alert(window.gdpr.getScripts());">Show Scripts</a></li>
+        <li><a href="#!" onclick="window.gdpr.removeScripts();">Remove Scripts</a></li>
+        <li><a href="#!" onclick="window.gdpr.cookieConsentRemoveCookie(); window.location.reload()">Reset Consent View</a></li>
+    </ul>
+    <!-- <a href="#!" onclick="alert(window.gdpr.showDemoCookies())">Show  Manual Cookies </a>
+    <a href="#!" onclick="window.gdpr.removeDemoCookies(); alert('Demo Cookies removed');alert('Cookies: '+window.gdpr.showDemoCookies())">delete manual Cookies</a><br> -->
+
+<br>
+<br>
+
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis iste voluptates minima, cum ea magni possimus, velit assumenda consectetur sequi at quas quasi eveniet, eum qui dolores facilis officia dolorem.
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, assumenda perspiciatis. Fuga reiciendis minus quidem numquam inventore veritatis similique necessitatibus, quae, obcaecati deserunt quas blanditiis vero tempore sit ipsam laudantium.
     <h3>Foo</h3>

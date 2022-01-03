@@ -4,9 +4,7 @@ import { setDemoCookies, showDemoCookies, removeDemoCookies } from './demo';
 import './scss/styles.scss';
 
 
-setDemoCookies();
-
-
+//setDemoCookies();
 
 const cookieConsenti18n = {};
 const cookieConsentOptions = {
@@ -16,13 +14,16 @@ const cookieConsentOptions = {
     edit: 'gdpr-banner-edit',
     cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid', 'testscript'],
     scripts: {
-        head: ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1', 
-        'https://www.googletagservices.com/tag/js/gpt.js',
-        'https://www.google-analytics.com/analytics.js', 
-        'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js',
-        'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js'], body: []
+        head: ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1',
+            'https://www.googletagservices.com/tag/js/gpt.js',
+            'https://www.google-analytics.com/analytics.js',
+            'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js',
+            'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js'],
+        body: []
     }
 };
+
+const gdprOptions = { consentCookie: { name: 'gdprConsent', default: false } };
 
 /* bindings */
 const bannerAcceptButton = document.getElementById(cookieConsentOptions.accept);
@@ -43,18 +44,46 @@ const closeCookieConsent = () => {
 bannerAcceptButton.addEventListener('click', e => {
     e.preventDefault();
     closeCookieConsent();
+    cookieConsentAcceptAll();
     console.log('klicked accept ', e);
 });
 
 bannerDeclineButton.addEventListener('click', e => {
     e.preventDefault();
-    console.log('klicked ', e);
+    closeCookieConsent();
+    removeCookiesAndScripts();
+    cookieConsentDeclineAll();
 });
 
 bannerEditButton.addEventListener('click', e => {
     e.preventDefault();
-    console.log('klicked ', e);
+    closeCookieConsent();
+
 });
+
+const cookieConsentAcceptAll = () => {
+    cookieConsentSetCookie(true);
+}
+const cookieConsentDeclineAll = () => {
+    cookieConsentSetCookie(true);
+}
+
+const cookieConsentSetCookie = val => {
+    Cookies.set(gdprOptions.consentCookie.name, val);
+}
+
+const cookieConsentRemoveCookie = val => {
+    Cookies.remove(gdprOptions.consentCookie.name);
+}
+
+const cookieConsentCookieSet = () => {
+    const cookieSet = Cookie.get(gdprOptions.consentCookie);
+    if (cookieSet === true) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 const showAllCookies = () => {
     const Cookies = document.cookie.split(';').reduce((cookies, cookie) => {
@@ -71,7 +100,8 @@ const deleteAllCookies = () => {
         Cookies.remove(key, { path: '/', domain: '.restposten24.de' });
         console.log(window.location.pathname);
         Cookies.remove(key, {
-            path: window.location.pathname, domain: window.location.hostname });
+            path: window.location.pathname, domain: window.location.hostname
+        });
     });
 }
 
@@ -102,6 +132,17 @@ const removeCookiesAndScripts = () => {
     deleteAllCookies()
 }
 
+const cookieConsentInit = () => {
+    const cookieSet = Cookies.get(gdprOptions.consentCookie.name);
+    console.log(cookieSet);
+    if (typeof cookieSet == 'undefined') {
+        openCookieConsent();
+    } else {
+        closeCookieConsent();
+    }
+    removeCookiesAndScripts();
+}
+
 export {
     showDemoCookies,
     removeDemoCookies,
@@ -109,6 +150,8 @@ export {
     deleteAllCookies,
     removeScripts,
     getScripts,
-    removeCookiesAndScripts 
+    removeCookiesAndScripts,
+    cookieConsentInit,
+    cookieConsentRemoveCookie
 };
 
