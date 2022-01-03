@@ -20,10 +20,13 @@ const cookieConsentOptions = {
             'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js',
             'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js'],
         body: []
+    },
+    gdprOptions: {
+        consentCookie: { name: 'gdprConsent', default: false },
+        consentState: { name: 'gdprConsentState', default: true }
     }
 };
 
-const gdprOptions = { consentCookie: { name: 'gdprConsent', default: false } };
 
 /* bindings */
 const bannerAcceptButton = document.getElementById(cookieConsentOptions.accept);
@@ -45,7 +48,6 @@ bannerAcceptButton.addEventListener('click', e => {
     e.preventDefault();
     closeCookieConsent();
     cookieConsentAcceptAll();
-    console.log('klicked accept ', e);
 });
 
 bannerDeclineButton.addEventListener('click', e => {
@@ -63,21 +65,30 @@ bannerEditButton.addEventListener('click', e => {
 
 const cookieConsentAcceptAll = () => {
     cookieConsentSetCookie(true);
+    cookieConsentSetStateCookie('all');
 }
 const cookieConsentDeclineAll = () => {
     cookieConsentSetCookie(true);
+    cookieConsentSetStateCookie('none');
 }
 
 const cookieConsentSetCookie = val => {
-    Cookies.set(gdprOptions.consentCookie.name, val);
+    Cookies.set(cookieConsentOptions.gdprOptions.consentCookie.name, val);
 }
 
 const cookieConsentRemoveCookie = val => {
-    Cookies.remove(gdprOptions.consentCookie.name);
+    Cookies.remove(cookieConsentOptions.gdprOptions.consentCookie.name);
+}
+
+const cookieConsentSetStateCookie = (val = 'all') => {
+    Cookies.set(cookieConsentOptions.gdprOptions.consentState.name, val);
+}
+const cookieConsentRemoveStateCookie = () => {
+    Cookies.remove(cookieConsentOptions.gdprOptions.consentState.name);
 }
 
 const cookieConsentCookieSet = () => {
-    const cookieSet = Cookie.get(gdprOptions.consentCookie);
+    const cookieSet = Cookie.get(cookieConsentOptions.gdprOptions.consentCookie);
     if (cookieSet === true) {
         return true;
     } else {
@@ -133,14 +144,21 @@ const removeCookiesAndScripts = () => {
 }
 
 const cookieConsentInit = () => {
-    const cookieSet = Cookies.get(gdprOptions.consentCookie.name);
-    console.log(cookieSet);
-    if (typeof cookieSet == 'undefined') {
+    const cookieSet = Cookies.get(cookieConsentOptions.gdprOptions.consentCookie.name);
+    const cookieSetState = Cookies.get(cookieConsentOptions.gdprOptions.consentState.name);
+
+    if (typeof cookieSet === 'undefined') {
         openCookieConsent();
+        cookieConsentSetStateCookie('all');
+        removeCookiesAndScripts();
+    } else if (cookieSet === 'true' && cookieSetState === 'none') {
+        removeCookiesAndScripts();
+        closeCookieConsent();
     } else {
         closeCookieConsent();
     }
-    removeCookiesAndScripts();
+
+
 }
 
 export {
