@@ -46,8 +46,9 @@ const closeCookieConsent = () => {
 
 bannerAcceptButton.addEventListener('click', e => {
     e.preventDefault();
+    console.log('Accepted');
     closeCookieConsent();
-    cookieConsentAcceptAll();
+    //cookieConsentAcceptAll();
 });
 
 bannerDeclineButton.addEventListener('click', e => {
