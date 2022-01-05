@@ -111,8 +111,8 @@ const showAllCookies = () => {
 const deleteAllCookies = () => {
     const allCookies = JSON.parse(showAllCookies());
     Object.entries(allCookies).forEach(([key, value]) => {
-        Cookies.remove(key, { path: '/', domain: '.restposten24.de' });
-        //console.log(window.location.pathname);
+        Cookies.remove(key, { path: '/', domain: `.${getDomain(window.location.origin,false)}` });
+        Cookies.remove(key, { path: '/', domain: `${getDomain(window.location.origin, true)}` });
         Cookies.remove(key, {
             path: window.location.pathname, domain: window.location.hostname
         });
@@ -175,6 +175,24 @@ const cookieConsentInit = () => {
     }
 
 
+}
+
+const getDomain = (url, subdomain) => {
+    subdomain = subdomain || false;
+
+    url = url.replace(/(https?:\/\/)?(www.)?/i, '');
+
+    if (!subdomain) {
+        url = url.split('.');
+
+        url = url.slice(url.length - 2).join('.');
+    }
+
+    if (url.indexOf('/') !== -1) {
+        return url.split('/')[0];
+    }
+
+    return url;
 }
 
 export {
