@@ -1,5 +1,6 @@
 
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
+//import Cookies from 'js-cookie';
 import { setDemoCookies, showDemoCookies, removeDemoCookies } from './demo';
 import './scss/styles.scss';
 
@@ -13,14 +14,14 @@ const cookieConsentOptions = {
     decline: 'gdpr-banner-decline',
     edit: 'gdpr-banner-edit',
     cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid', 'testscript'],
-    scripts: {
-        head: ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1',
+    scripts: 
+         ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1',
             'https://www.googletagservices.com/tag/js/gpt.js',
             'https://www.google-analytics.com/analytics.js',
             'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js',
-            'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js'],
-        body: []
-    },
+            'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js']
+
+    ,
     gdprOptions: {
         consentCookie: { name: 'gdprConsent', default: false },
         consentState: { name: 'gdprConsentState', default: true }
@@ -67,6 +68,7 @@ bannerEditButton.addEventListener('click', e => {
 const cookieConsentAcceptAll = () => {
     cookieConsentSetCookie(true);
     cookieConsentSetStateCookie('all');
+    window.location.reload();
 }
 const cookieConsentDeclineAll = () => {
     cookieConsentSetCookie(true);
@@ -74,22 +76,22 @@ const cookieConsentDeclineAll = () => {
 }
 
 const cookieConsentSetCookie = val => {
-    Cookies.set(cookieConsentOptions.gdprOptions.consentCookie.name, val);
+    Cookies.set(cookieConsentOptions.gdprOptions.consentCookie.name, val, { expires: 365, path: '/' });
 }
 
 const cookieConsentRemoveCookie = val => {
-    Cookies.remove(cookieConsentOptions.gdprOptions.consentCookie.name);
+    Cookies.remove(cookieConsentOptions.gdprOptions.consentCookie.name,{ path: '/' });
 }
 
 const cookieConsentSetStateCookie = (val = 'all') => {
-    Cookies.set(cookieConsentOptions.gdprOptions.consentState.name, val);
+    Cookies.set(cookieConsentOptions.gdprOptions.consentState.name, val, { expires: 365, path: '/' });
 }
 const cookieConsentRemoveStateCookie = () => {
-    Cookies.remove(cookieConsentOptions.gdprOptions.consentState.name);
+    Cookies.remove(cookieConsentOptions.gdprOptions.consentState.name, { path: '/' });
 }
 
 const cookieConsentCookieSet = () => {
-    const cookieSet = Cookie.get(cookieConsentOptions.gdprOptions.consentCookie);
+    const cookieSet = Cookies.get(cookieConsentOptions.gdprOptions.consentCookie);
     if (cookieSet === true) {
         return true;
     } else {
@@ -110,7 +112,7 @@ const deleteAllCookies = () => {
     const allCookies = JSON.parse(showAllCookies());
     Object.entries(allCookies).forEach(([key, value]) => {
         Cookies.remove(key, { path: '/', domain: '.restposten24.de' });
-        console.log(window.location.pathname);
+        //console.log(window.location.pathname);
         Cookies.remove(key, {
             path: window.location.pathname, domain: window.location.hostname
         });
@@ -120,21 +122,33 @@ const deleteAllCookies = () => {
 const removeScripts = () => {
 
     const allLoadedScripts = document.querySelectorAll("script");
-    const head = document.getElementsByTagName('head');
-    const body = document.getElementsByTagName('body');
 
     allLoadedScripts.forEach((val, key) => {
         if (val.src !== '') {
-            if (cookieConsentOptions.scripts.body.includes(val.src)) {
-                body[0].removeChild(allLoadedScripts[key]);
-            }
-            if (cookieConsentOptions.scripts.head.includes(val.src)) {
-                head[0].removeChild(allLoadedScripts[key]);
+            if (cookieConsentOptions.scripts.includes(val.src)) {
+                allLoadedScripts[key].setAttribute('data-src', allLoadedScripts[key].src);
+                allLoadedScripts[key].src = '';
+                allLoadedScripts[key].removeAttribute('async');
             }
         }
     });
     // console.log(getScripts());
 }
+
+const resetScripts = () =>{
+    const allLoadedScripts = document.querySelectorAll("script");
+
+    allLoadedScripts.forEach((val, key) => {
+        if (val.src === '') {
+            //if (cookieConsentOptions.scripts.includes(val.src)) {
+                allLoadedScripts[key].setAttribute('data-src', allLoadedScripts[key].src);
+                allLoadedScripts[key].src = '';
+                allLoadedScripts[key].removeAttribute('async');
+            //}
+        }
+    });
+}
+
 const getScripts = () => {
     return JSON.stringify(cookieConsentOptions.scripts);
 }
@@ -152,6 +166,7 @@ const cookieConsentInit = () => {
         openCookieConsent();
         cookieConsentSetStateCookie('all');
         removeCookiesAndScripts();
+       
     } else if (cookieSet === 'true' && cookieSetState === 'none') {
         removeCookiesAndScripts();
         closeCookieConsent();
