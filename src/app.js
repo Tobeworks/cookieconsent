@@ -160,7 +160,7 @@ const resetScripts = () => {
         opt[key].removeAttribute('type');
         opt[key].removeAttribute('src');
 
-        eval(opt[key].innerText);
+        Function(opt[key].innerText)();
     });
 
 }
