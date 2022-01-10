@@ -10,11 +10,12 @@
     <title>Cookie Consent</title>
     <!-- <script src="https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js"></script> -->
     <link rel="stylesheet" href="https://www.restposten24.de/templates/rp24_bs4/css/style.css">
+    <link rel="stylesheet" href="https://www.restposten24.de/templates/rp24_bs4/css/bootstrap/bootstrap.css?v=1.9.56">
     <link rel="stylesheet" href="./dist/styles/bundle.css">
     <script src="dist/bundle.umd.js" defer></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script data-src="https://www.googletagmanager.com/gtag/js?id=UA-338528-1"></script>
+    <script data-src="https://www.googletagmanager.com/gtag/js?id=UA-338528-1" data-cookiescript="accepted" data-cookiecategory="targeting"></script>
     <script class="opt" type="text/plain" data-cookiescript="accepted" data-cookiecategory="targeting">
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -22,7 +23,7 @@
 
         gtag('config', 'UA-338528-1');
     </script>
-    <script async data-src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+    <script async data-src='https://www.googletagservices.com/tag/js/gpt.js' data-cookiescript="accepted" data-cookiecategory="targeting"></script>
     <script class="opt" type="text/plain" data-cookiescript="accepted" data-cookiecategory="targeting">
 
     </script>
@@ -75,7 +76,27 @@
 
 <body onload="">
     <div id="gdpr-banner" class="gdpr-cookieconsent-hidden">
-        <div class="gdpr-banner_wrapper">
+        <div id="gdpr-banner_additional" class="gdpr-banner_additional gdpr-cookieconsent-additional-hidden">
+            <h2 class="gdpr-banner-clipped">Cookie-Verwaltung</h2>
+            <div class="gdpr-banner_text">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis iste voluptates minima, cum ea magni possimus, velit assumenda consectetur sequi at quas quasi eveniet, eum qui dolores facilis officia dolorem.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, assumenda perspiciatis. Fuga reiciendis minus quidem numquam inventore veritatis similique necessitatibus, quae, obcaecati deserunt quas blanditiis vero tempore sit ipsam laudantium.
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="gdpr-banner-switch-statistics">
+                    <label class="custom-control-label" for="gdpr-banner-switch-statistics">Statistik</label>
+                </div>
+                
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="gdpr-banner-switch-marketing">
+                    <label class="custom-control-label" for="gdpr-banner-switch-marketing">Marketing</label>
+                </div>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" disabled id="gdpr-banner-switch-essential">
+                    <label class="custom-control-label" for="gdpr-banner-switch-essential">Essenziell</label>
+                </div>
+            </div>
+        </div>
+        <div class="gdpr-banner_main">
             <h2 class="gdpr-banner-clipped">Dateneinstellungen - Informationen und Verwaltung</h2>
             <div class="gdpr-banner_text">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis iste voluptates minima, cum ea magni possimus, velit assumenda consectetur sequi at quas quasi eveniet, eum qui dolores facilis officia dolorem.

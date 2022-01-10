@@ -14,7 +14,10 @@ const cookieConsentOptions = {
     mainElement: "gdpr-banner",
     accept: 'gdpr-banner-accept',
     decline: 'gdpr-banner-decline',
+    additional: 'gdpr-banner_additional',
     edit: 'gdpr-banner-edit',
+    switchStatistics: 'gdpr-banner-switch-statistics',
+    switchMarketing: 'gdpr-banner-switch-marketing',
     cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid', 'testscript'],
     scripts:
         ['https://www.googletagmanager.com/gtag/js?id=UA-338528-1',
@@ -28,8 +31,8 @@ const cookieConsentOptions = {
         consentCookie: { name: 'gdprConsent', default: false },
         consentState: { name: 'gdprConsentState', default: true }
     },
-    i18n:{},
-    cookieCategories: [{ category: 'neccesary' }, { category:'targeting'}]
+    i18n: {},
+    cookieCategories: [{ category: 'neccesary' }, { category: 'targeting' }]
 };
 
 
@@ -38,6 +41,20 @@ const bannerAcceptButton = document.getElementById(cookieConsentOptions.accept);
 const bannerDeclineButton = document.getElementById(cookieConsentOptions.decline);
 const bannerEditButton = document.getElementById(cookieConsentOptions.edit);
 const bannerMainElement = document.getElementById(cookieConsentOptions.mainElement);
+const bannerAdditional = document.getElementById(cookieConsentOptions.additional);
+const switchStatistics = document.getElementById(cookieConsentOptions.switchStatistics);
+const switchMarketing = document.getElementById(cookieConsentOptions.switchMarketing);
+
+
+switchStatistics.addEventListener('click', e => {
+   // e.preventDefault();
+    console.log('switchstatistics');
+});
+
+switchMarketing.addEventListener('click', e => {
+   // e.preventDefault();
+    console.log('switchMarketing');
+});
 
 const openCookieConsent = () => {
     bannerMainElement.classList.remove("gdpr-cookieconsent-hidden");
@@ -47,6 +64,19 @@ const openCookieConsent = () => {
 const closeCookieConsent = () => {
     bannerMainElement.classList.remove("gdpr-cookieconsent-show");
     bannerMainElement.classList.add("gdpr-cookieconsent-hidden");
+}
+
+const openAdditional = () => {
+    if (editModus == 'closed') {
+        bannerAdditional.classList.remove("gdpr-cookieconsent-additional-hidden");
+        bannerAdditional.classList.add("gdpr-cookieconsent-additional-show");
+        editModus = 'open';
+    } else {
+        bannerAdditional.classList.remove("gdpr-cookieconsent-additional-show");
+        bannerAdditional.classList.add("gdpr-cookieconsent-additional-hidden");
+        editModus = 'closed';
+    }
+
 }
 
 bannerAcceptButton.addEventListener('click', e => {
@@ -61,11 +91,15 @@ bannerDeclineButton.addEventListener('click', e => {
     cookieConsentDeclineAll();
 });
 
+let editModus = 'closed';
 bannerEditButton.addEventListener('click', e => {
     e.preventDefault();
-    closeCookieConsent();
-
+    console.log('more');
+    openAdditional();
 });
+
+
+
 
 const cookieConsentAcceptAll = () => {
     cookieConsentSetCookie(true);
@@ -102,7 +136,6 @@ const showAllCookies = () => {
 const deleteAllCookies = () => {
     const allCookies = JSON.parse(showAllCookies());
     Object.entries(allCookies).forEach(([key]) => {
-        // console.log(key);
         Cookies.remove(key, { path: '/', domain: `.${getDomain(window.location.origin, false)}` });
         Cookies.remove(key, { path: '/', domain: `${getDomain(window.location.origin, true)}` });
         Cookies.remove(key, {
@@ -118,7 +151,7 @@ const removeScripts = () => {
     const opt = document.querySelectorAll(".opt");
     opt.forEach((val, key) => {
         opt[key].setAttribute('type', 'text');
-        //console.log(opt[key]);
+
     });
 
     allLoadedScripts.forEach((val, key) => {
@@ -126,7 +159,7 @@ const removeScripts = () => {
             if (cookieConsentOptions.scripts.includes(val.src)) {
                 allLoadedScripts[key].setAttribute('data-src', allLoadedScripts[key].src);
                 allLoadedScripts[key].src = '';
-                //allLoadedScripts[key].removeAttribute('async');
+
             }
         }
     });
@@ -140,7 +173,6 @@ const resetScripts = () => {
             allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
             allLoadedScripts[key].removeAttribute('data-src');
             allLoadedScripts[key].removeAttribute('type');
-            //console.log(allLoadedScripts[key]);
         }
     });
 
