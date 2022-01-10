@@ -2,12 +2,14 @@
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
 //import Cookies from 'js-cookie';
 import { showDemoCookies, removeDemoCookies } from './demo';
-import './scss/styles.scss';
+import './scss/templates/basic/styles.scss';
 
 
 //setDemoCookies();
-
+//const config = {template:'basic'};
 //const cookieConsenti18n = {};
+
+
 const cookieConsentOptions = {
     mainElement: "gdpr-banner",
     accept: 'gdpr-banner-accept',
@@ -25,7 +27,9 @@ const cookieConsentOptions = {
     gdprOptions: {
         consentCookie: { name: 'gdprConsent', default: false },
         consentState: { name: 'gdprConsentState', default: true }
-    }
+    },
+    i18n:{},
+    cookieCategories: [{ category: 'neccesary' }, { category:'targeting'}]
 };
 
 
@@ -85,18 +89,6 @@ const cookieConsentRemoveCookie = () => {
 const cookieConsentSetStateCookie = (val = 'all') => {
     Cookies.set(cookieConsentOptions.gdprOptions.consentState.name, val, { expires: 365, path: '/', sameSite: 'Strict' });
 }
-// const cookieConsentRemoveStateCookie = () => {
-//     Cookies.remove(cookieConsentOptions.gdprOptions.consentState.name, { path: '/' });
-// }
-
-// const cookieConsentCookieSet = () => {
-//     const cookieSet = Cookies.get(cookieConsentOptions.gdprOptions.consentCookie);
-//     if (cookieSet === true) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
 
 const showAllCookies = () => {
     const Cookies = document.cookie.split(';').reduce((cookies, cookie) => {

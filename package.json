@@ -2,6 +2,7 @@
   "dependencies": {
     "js-cookie": "^3.0.1"
   },
+  "version": "1.0.0",
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",

@@ -1,7 +1,5 @@
-@import './_body';
-$primaryColor: #ededed;
-$secondaryColor: #be140f;
-$borders: rgba(180, 180, 180, 0.411);
+
+@import "./variables";
 
 #gdpr-banner {
   background-color: $primaryColor;
@@ -13,10 +11,6 @@ $borders: rgba(180, 180, 180, 0.411);
   left: 0;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
   border-top: 1px solid $borders;
-   
-
-
-
 
   h2.gdpr-banner-clipped {
     font-size: 25px;
@@ -41,29 +35,21 @@ $borders: rgba(180, 180, 180, 0.411);
     cursor: pointer;
 
     &:hover {
-      background-color: #df4742;
+      background-color: $secondaryColor;
     }
   }
 }
 
-  .gdpr-cookieconsent-show {
-    display: block;
-   transform: translateY(0px);
-   opacity: 1;
-   transition: all .4s ease-in;
-  }
+.gdpr-cookieconsent-show {
+  display: block;
+  transform: translateY(0px);
+  opacity: 1;
+  transition: all 0.4s ease-in;
+}
 
-  .gdpr-cookieconsent-hidden {
-    transform: translateY(800px);
-    transition: all .8s ease-out;
-    opacity: .6;
-   // display: none;
-    // visibility: hidden;
-  }
-// #gdpr-banner div.gdpr-banner_wrapper {
-// }
-// #gdpr-banner-decline {
-// }
+.gdpr-cookieconsent-hidden {
+  transform: translateY(800px);
+  transition: all 0.8s ease-out;
+  opacity: 0.6;
+}
 
-// #gdpr-banner-accept {
-// }

@@ -3,6 +3,7 @@
 import { terser } from 'rollup-plugin-terser';
 import scss from 'rollup-plugin-scss'
 import { babel } from '@rollup/plugin-babel';
+import pkg from './package.json'
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
