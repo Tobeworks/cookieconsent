@@ -1,13 +1,13 @@
 
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
 //import Cookies from 'js-cookie';
-import { setDemoCookies, showDemoCookies, removeDemoCookies } from './demo';
+import { showDemoCookies, removeDemoCookies } from './demo';
 import './scss/styles.scss';
 
 
 //setDemoCookies();
 
-const cookieConsenti18n = {};
+//const cookieConsenti18n = {};
 const cookieConsentOptions = {
     mainElement: "gdpr-banner",
     accept: 'gdpr-banner-accept',
@@ -47,7 +47,6 @@ const closeCookieConsent = () => {
 
 bannerAcceptButton.addEventListener('click', e => {
     e.preventDefault();
-    console.log('Accepted');
     closeCookieConsent();
     cookieConsentAcceptAll();
 });
@@ -55,7 +54,6 @@ bannerAcceptButton.addEventListener('click', e => {
 bannerDeclineButton.addEventListener('click', e => {
     e.preventDefault();
     closeCookieConsent();
-    //removeCookiesAndScripts();
     cookieConsentDeclineAll();
 });
 
@@ -69,7 +67,6 @@ const cookieConsentAcceptAll = () => {
     cookieConsentSetCookie(true);
     cookieConsentSetStateCookie('all');
     resetScripts();
-    //window.location.reload();
 }
 const cookieConsentDeclineAll = () => {
     cookieConsentSetCookie(true);
@@ -81,25 +78,25 @@ const cookieConsentSetCookie = val => {
     Cookies.set(cookieConsentOptions.gdprOptions.consentCookie.name, val, { expires: 365, path: '/', sameSite: 'strict' });
 }
 
-const cookieConsentRemoveCookie = val => {
+const cookieConsentRemoveCookie = () => {
     Cookies.remove(cookieConsentOptions.gdprOptions.consentCookie.name, { path: '/' });
 }
 
 const cookieConsentSetStateCookie = (val = 'all') => {
     Cookies.set(cookieConsentOptions.gdprOptions.consentState.name, val, { expires: 365, path: '/', sameSite: 'Strict' });
 }
-const cookieConsentRemoveStateCookie = () => {
-    Cookies.remove(cookieConsentOptions.gdprOptions.consentState.name, { path: '/' });
-}
+// const cookieConsentRemoveStateCookie = () => {
+//     Cookies.remove(cookieConsentOptions.gdprOptions.consentState.name, { path: '/' });
+// }
 
-const cookieConsentCookieSet = () => {
-    const cookieSet = Cookies.get(cookieConsentOptions.gdprOptions.consentCookie);
-    if (cookieSet === true) {
-        return true;
-    } else {
-        return false;
-    }
-}
+// const cookieConsentCookieSet = () => {
+//     const cookieSet = Cookies.get(cookieConsentOptions.gdprOptions.consentCookie);
+//     if (cookieSet === true) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 const showAllCookies = () => {
     const Cookies = document.cookie.split(';').reduce((cookies, cookie) => {
@@ -112,8 +109,8 @@ const showAllCookies = () => {
 
 const deleteAllCookies = () => {
     const allCookies = JSON.parse(showAllCookies());
-    Object.entries(allCookies).forEach(([key, value]) => {
-        console.log(key);
+    Object.entries(allCookies).forEach(([key]) => {
+        // console.log(key);
         Cookies.remove(key, { path: '/', domain: `.${getDomain(window.location.origin, false)}` });
         Cookies.remove(key, { path: '/', domain: `${getDomain(window.location.origin, true)}` });
         Cookies.remove(key, {
@@ -129,7 +126,7 @@ const removeScripts = () => {
     const opt = document.querySelectorAll(".opt");
     opt.forEach((val, key) => {
         opt[key].setAttribute('type', 'text');
-        console.log(opt[key]);
+        //console.log(opt[key]);
     });
 
     allLoadedScripts.forEach((val, key) => {
@@ -151,7 +148,7 @@ const resetScripts = () => {
             allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
             allLoadedScripts[key].removeAttribute('data-src');
             allLoadedScripts[key].removeAttribute('type');
-            console.log(allLoadedScripts[key]);
+            //console.log(allLoadedScripts[key]);
         }
     });
 
@@ -181,12 +178,10 @@ const cookieConsentInit = () => {
     if (typeof cookieSet === 'undefined') {
         openCookieConsent();
         cookieConsentSetStateCookie('all');
-        //removeCookiesAndScripts();
-
     } else if (cookieSet === 'true' && cookieSetState === 'none') {
-        // removeCookiesAndScripts();
         closeCookieConsent();
     } else {
+        resetScripts();
         closeCookieConsent();
     }
 
