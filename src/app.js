@@ -177,11 +177,12 @@ const resetScripts = () => {
     });
 
     const opt = document.querySelectorAll(".opt");
+    let res;
     opt.forEach((val, key) => {
         opt[key].removeAttribute('type');
         opt[key].removeAttribute('src');
-
-        Function(opt[key].innerText)();
+      // res = Function(opt[key].innerText)();
+       //eval(opt[key].innerText);
     });
 
 }
