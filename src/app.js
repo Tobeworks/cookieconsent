@@ -55,17 +55,17 @@ const switchMarketing = document.getElementById(cookieConsentOptions.switchMarke
 switchStatistics.addEventListener('click', e => {
     // e.preventDefault();
     console.log('switchstatistics');
-    console.table(cookieConsentOptions.cookieCategories);
-    cookieConsentOptions.cookieCategories[1].accepted = true;
+    let checked = document.getElementById('gdpr-banner-switch-statistics').checked;
+    cookieConsentOptions.cookieCategories[1].accepted = checked;
     console.table(cookieConsentOptions.cookieCategories);
     Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
 });
 
 switchMarketing.addEventListener('click', e => {
-    // e.preventDefault();
+    //  e.preventDefault();
     console.log('switchMarketing');
-    console.table(cookieConsentOptions.cookieCategories);
-    cookieConsentOptions.cookieCategories[2].accepted = true;
+    let checked = document.getElementById('gdpr-banner-switch-marketing').checked;
+    cookieConsentOptions.cookieCategories[2].accepted = checked;
     console.table(cookieConsentOptions.cookieCategories);
     Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
 });
@@ -109,7 +109,7 @@ let editModus = 'closed';
 bannerEditButton.addEventListener('click', e => {
     e.preventDefault();
     console.log('more');
-    //openAdditional();
+    openAdditional();
 });
 
 
@@ -212,6 +212,20 @@ const removeCookiesAndScripts = () => {
 const cookieConsentInit = () => {
     const cookieSet = Cookies.get(cookieConsentOptions.gdprOptions.consentCookie.name);
     const cookieSetState = Cookies.get(cookieConsentOptions.gdprOptions.consentState.name);
+
+    let cookieOptions = Cookies.get(cookieConsentOptions.gdprOptions.consentOptions.name);
+    //set global Options from Cookie
+    if(typeof cookieOptions !== 'undefined'){
+        cookieOptions = JSON.parse(cookieOptions);
+        cookieConsentOptions.cookieCategories = cookieOptions;
+        document.getElementById('gdpr-banner-switch-statistics').checked = cookieOptions[1].accepted;
+        document.getElementById('gdpr-banner-switch-marketing').checked = cookieOptions[2].accepted;
+    }else{
+        cookieOptions = cookieConsentOptions.gdprOptions.consentOptions;
+    }
+    
+    //set Options from Cookie
+
 
     if (typeof cookieSet === 'undefined') {
         openCookieConsent();
