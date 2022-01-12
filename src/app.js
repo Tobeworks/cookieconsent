@@ -24,17 +24,22 @@ const cookieConsentOptions = {
             'https://www.googletagservices.com/tag/js/gpt.js',
             'https://www.google-analytics.com/analytics.js',
             'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js',
-            'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js']
+            'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js',
+            'https://t.adcell.com/js/trad.js']
 
     ,
     gdprOptions: {
         consentCookie: { name: 'gdprConsent', default: false },
-        consentState: { name: 'gdprConsentState', default: true }
+        consentState: { name: 'gdprConsentState', default: true },
     },
     i18n: {},
-    cookieCategories: [{ category: 'neccesary' }, { category: 'targeting' }]
+    cookieCategories: [{ category: 'neccesary', accepted: true }, 
+                        { category: 'targeting', accepted: false },
+                        { category: 'marketing', accepted: false }]
 };
 
+
+let targetOptions = {};
 
 /* bindings */
 const bannerAcceptButton = document.getElementById(cookieConsentOptions.accept);
@@ -47,12 +52,12 @@ const switchMarketing = document.getElementById(cookieConsentOptions.switchMarke
 
 
 switchStatistics.addEventListener('click', e => {
-   // e.preventDefault();
+    // e.preventDefault();
     console.log('switchstatistics');
 });
 
 switchMarketing.addEventListener('click', e => {
-   // e.preventDefault();
+    // e.preventDefault();
     console.log('switchMarketing');
 });
 
@@ -148,7 +153,7 @@ const removeScripts = () => {
 
     const allLoadedScripts = document.querySelectorAll("script");
 
-    const opt = document.querySelectorAll(".opt");
+    const opt = document.querySelectorAll(".gdpr-opt");
     opt.forEach((val, key) => {
         opt[key].setAttribute('type', 'text');
 
@@ -176,13 +181,12 @@ const resetScripts = () => {
         }
     });
 
-    const opt = document.querySelectorAll(".opt");
+    const opt = document.querySelectorAll(".gdpr-opt");
     let res;
     opt.forEach((val, key) => {
         opt[key].removeAttribute('type');
         opt[key].removeAttribute('src');
-      // res = Function(opt[key].innerText)();
-       //eval(opt[key].innerText);
+        Function(opt[key].innerText)();
     });
 
 }
@@ -205,6 +209,7 @@ const cookieConsentInit = () => {
         cookieConsentSetStateCookie('all');
     } else if (cookieSet === 'true' && cookieSetState === 'none') {
         closeCookieConsent();
+        removeScripts();
     } else {
         resetScripts();
         closeCookieConsent();
