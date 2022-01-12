@@ -41,6 +41,10 @@
       transition: all 0.3s ease-in-out;
     }
   }
+
+  .custom-control-label {
+      cursor: pointer;
+  }
 }
 
 .gdpr-banner_additional {
@@ -71,4 +75,5 @@
     opacity: 1;
     z-index: 998;
 }
+
 

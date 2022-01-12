@@ -31,11 +31,12 @@ const cookieConsentOptions = {
     gdprOptions: {
         consentCookie: { name: 'gdprConsent', default: false },
         consentState: { name: 'gdprConsentState', default: true },
+        consentOptions: { name: 'gdprConsentOptions', default: JSON.stringify({}) },
     },
     i18n: {},
-    cookieCategories: [{ category: 'neccesary', accepted: true }, 
-                        { category: 'targeting', accepted: false },
-                        { category: 'marketing', accepted: false }]
+    cookieCategories: [{ category: 'neccesary', accepted: true },
+    { category: 'statistics', accepted: false },
+    { category: 'marketing', accepted: false }]
 };
 
 
@@ -54,11 +55,19 @@ const switchMarketing = document.getElementById(cookieConsentOptions.switchMarke
 switchStatistics.addEventListener('click', e => {
     // e.preventDefault();
     console.log('switchstatistics');
+    console.table(cookieConsentOptions.cookieCategories);
+    cookieConsentOptions.cookieCategories[1].accepted = true;
+    console.table(cookieConsentOptions.cookieCategories);
+    Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
 });
 
 switchMarketing.addEventListener('click', e => {
     // e.preventDefault();
     console.log('switchMarketing');
+    console.table(cookieConsentOptions.cookieCategories);
+    cookieConsentOptions.cookieCategories[2].accepted = true;
+    console.table(cookieConsentOptions.cookieCategories);
+    Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
 });
 
 const openCookieConsent = () => {
@@ -100,7 +109,7 @@ let editModus = 'closed';
 bannerEditButton.addEventListener('click', e => {
     e.preventDefault();
     console.log('more');
-    openAdditional();
+    //openAdditional();
 });
 
 
