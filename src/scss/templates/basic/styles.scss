@@ -47,6 +47,23 @@
   }
 }
 
+#gdpr-banner-gear{
+    padding: 12px;
+  position: fixed;
+  bottom: 0;
+  z-index: 990;
+  left: 0;
+
+  svg{
+        width: 300;
+    height: 300;
+  }
+
+  .gear-img{
+    width: 300;
+    height: 300;
+  }
+}
 .gdpr-banner_additional {
 	padding-bottom: 10px;
 	border-bottom: 1px solid #c9c9c9;
@@ -76,4 +93,9 @@
     z-index: 998;
 }
 
-
+.gdpr-gear-hidden{
+  display: none;
+}
+.gdpr-gear-show{
+  display: block;
+}
