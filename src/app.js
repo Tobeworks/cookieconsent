@@ -26,7 +26,8 @@ const cookieConsentOptions = {
             'https://www.google-analytics.com/analytics.js',
             'https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021120601.js',
             'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js',
-            'https://t.adcell.com/js/trad.js']
+            'https://t.adcell.com/js/trad.js',
+            'https://securepubads.g.doubleclick.net/tag/js/gpt.js']
 
     ,
     gdprOptions: {
@@ -170,7 +171,7 @@ const removeScripts = () => {
 
     const opt = document.querySelectorAll(".gdpr-opt");
     opt.forEach((val, key) => {
-        opt[key].setAttribute('type', 'text');
+        opt[key].setAttribute('type', 'text/plain');
 
     });
 

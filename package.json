@@ -21,6 +21,6 @@
     "build": "rollup -c",
     "watch": "rollup -c -w",
     "dev": "npm-run-all --parallel start watch",
-    "deploy":"cp -rfp public/dist ../../templates/rp24_bs4/cookieconsent/"
+    "deploy":"rollup -c; cp -rfp public/dist ../../templates/rp24_bs4/cookieconsent/"
   }
 }
