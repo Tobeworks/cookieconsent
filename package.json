@@ -17,7 +17,7 @@
     "serve": "^13.0.2"
   },
   "scripts": {
-    "start": "serve -l 1234 public",
+    "start": "serve -l 3001 public",
     "build": "rollup -c",
     "watch": "rollup -c -w",
     "dev": "npm-run-all --parallel start watch",
