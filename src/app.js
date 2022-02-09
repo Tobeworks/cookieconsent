@@ -1,8 +1,10 @@
-
 import Cookies from '../node_modules/js-cookie/dist/js.cookie';
 //import Cookies from 'js-cookie';
 import { showDemoCookies, removeDemoCookies } from './demo';
+
 import './scss/templates/basic/styles.scss';
+
+
 
 
 const cookieConsentOptions = {

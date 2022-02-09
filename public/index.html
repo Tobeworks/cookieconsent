@@ -11,7 +11,6 @@
     <!-- <script src="https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js"></script> -->
     <link rel="stylesheet" href="https://www.restposten24.de/templates/rp24_bs4/css/style.css">
     <link rel="stylesheet" href="https://www.restposten24.de/templates/rp24_bs4/css/bootstrap/bootstrap.css?v=1.9.56"> 
-    <link href="../../../includes/lib/yarn/node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./dist/styles/bundle.css">
     <script src="dist/bundle.umd.js" defer></script>
 
@@ -76,7 +75,7 @@
 
 <body onload="">
 
-
+<div id="gdpr-container">
     <div id="gdpr-banner" class="gdpr-cookieconsent-hidden">
         <div id="gdpr-banner_additional" class="gdpr-banner_additional gdpr-cookieconsent-additional-hidden">
             <h2 class="gdpr-banner-clipped">Cookie-Verwaltung</h2>
@@ -96,6 +95,7 @@
                     <input type="checkbox" class="custom-control-input" disabled id="gdpr-banner-switch-essential">
                     <label class="custom-control-label" for="gdpr-banner-switch-essential">Essenziell</label>
                 </div>
+                <div><button id="gdpr-banner-accept-selection" class="gdpr-button">Auswahl akzeptieren</button></div>
             </div>
         </div>
         <div class="gdpr-banner_main">
@@ -111,6 +111,7 @@
             </div>
         </div>
     </div>
+</div>
     <div id="gdpr-banner-gear" class="gdpr-gear-show">
 <a href="#!" onclick="window.gdpr.cookieConsentRemoveCookie(); window.location.reload()"><i class="fas fa-cog"></i></a
 </a>
