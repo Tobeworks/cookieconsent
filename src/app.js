@@ -14,6 +14,7 @@ const cookieConsentOptions = {
     additional: 'gdpr-banner_additional',
     edit: 'gdpr-banner-edit',
     gear: 'gdpr-banner-gear',
+    acceptSelection:'gdpr-banner-accept-selection',
     switchStatistics: 'gdpr-banner-switch-statistics',
     switchMarketing: 'gdpr-banner-switch-marketing',
     cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid', 'testscript', '__gads'],
@@ -40,8 +41,6 @@ const cookieConsentOptions = {
 };
 
 
-let targetOptions = {};
-
 const bannerAcceptButton = document.getElementById(cookieConsentOptions.accept);
 const bannerDeclineButton = document.getElementById(cookieConsentOptions.decline);
 const bannerEditButton = document.getElementById(cookieConsentOptions.edit);
@@ -50,13 +49,14 @@ const bannerMainElement = document.getElementById(cookieConsentOptions.mainEleme
 const bannerAdditional = document.getElementById(cookieConsentOptions.additional);
 const switchStatistics = document.getElementById(cookieConsentOptions.switchStatistics);
 const switchMarketing = document.getElementById(cookieConsentOptions.switchMarketing);
+const acceptSelection = document.getElementById(cookieConsentOptions.acceptSelection);
 
 
 switchStatistics.addEventListener('click', e => {
     console.log('switchstatistics');
     let checked = document.getElementById('gdpr-banner-switch-statistics').checked;
     cookieConsentOptions.cookieCategories[1].accepted = checked;
-    console.table(cookieConsentOptions.cookieCategories);
+
     Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
 });
 
@@ -64,11 +64,8 @@ switchMarketing.addEventListener('click', e => {
     console.log('switchMarketing');
     let checked = document.getElementById('gdpr-banner-switch-marketing').checked;
     cookieConsentOptions.cookieCategories[2].accepted = checked;
-    console.table(cookieConsentOptions.cookieCategories);
     Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
 });
-
-
 
 const openCookieConsent = () => {
     bannerMainElement.classList.remove("gdpr-cookieconsent-hidden");
@@ -80,17 +77,25 @@ const closeCookieConsent = () => {
     bannerMainElement.classList.add("gdpr-cookieconsent-hidden");
 }
 
+const openCookieAdditional = () => {
+    bannerAdditional.classList.remove("gdpr-cookieconsent-additional-hidden");
+    bannerAdditional.classList.add("gdpr-cookieconsent-additional-show");
+    editModus = 'open';
+}
+
+const closeCookieAdditional = () => {
+    bannerAdditional.classList.remove("gdpr-cookieconsent-additional-show");
+    bannerAdditional.classList.add("gdpr-cookieconsent-additional-hidden");
+    editModus = 'closed';
+}
+
+
 const openAdditional = () => {
     if (editModus == 'closed') {
-        bannerAdditional.classList.remove("gdpr-cookieconsent-additional-hidden");
-        bannerAdditional.classList.add("gdpr-cookieconsent-additional-show");
-        editModus = 'open';
+        openCookieAdditional();
     } else {
-        bannerAdditional.classList.remove("gdpr-cookieconsent-additional-show");
-        bannerAdditional.classList.add("gdpr-cookieconsent-additional-hidden");
-        editModus = 'closed';
+        closeCookieAdditional();    
     }
-
 }
 
 bannerAcceptButton.addEventListener('click', e => {
@@ -101,6 +106,21 @@ bannerAcceptButton.addEventListener('click', e => {
     bannerAdditional.classList.add("gdpr-gear-show");
 });
 
+
+let editModus = 'closed';
+bannerEditButton.addEventListener('click', e => {
+    e.preventDefault();
+    openAdditional();
+});
+
+acceptSelection.addEventListener('click', e => {
+    e.preventDefault();
+    closeCookieConsent();
+    cookieConsentSetStateCookie('partial');
+    cookieConsentSetCookie(true);
+
+});
+
 bannerDeclineButton.addEventListener('click', e => {
     e.preventDefault();
     closeCookieConsent();
@@ -109,12 +129,7 @@ bannerDeclineButton.addEventListener('click', e => {
     bannerAdditional.classList.add("gdpr-gear-show");
 });
 
-let editModus = 'closed';
-bannerEditButton.addEventListener('click', e => {
-    e.preventDefault();
-    console.log('more');
-    openAdditional();
-});
+
 
 const cookieConsentAcceptAll = () => {
     cookieConsentSetCookie(true);
@@ -179,17 +194,29 @@ const removeScripts = () => {
     });
 }
 
-const resetScripts = () => {
+const resetScripts = (marker = false) => {
     
     const allLoadedScripts = document.querySelectorAll("script");
+    const ma = marker;
 
     allLoadedScripts.forEach((val, key) => {
         if (cookieConsentOptions.scripts.includes(allLoadedScripts[key].getAttribute('data-src'))) {
-            console.log(allLoadedScripts[key].getAttribute('data-cookiecategory'));
-            console.log(cookieConsentOptions.cookieCategories);
-            allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
-            allLoadedScripts[key].removeAttribute('data-src');
-            allLoadedScripts[key].removeAttribute('type');
+            
+            if (Array.isArray(ma) === true) {
+                for (let index = 0; index < ma.length; index++) {
+                    const element = ma[index];
+                    if (element.category !== 'neccesary' && element.accepted === true){
+                        allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
+                        allLoadedScripts[key].removeAttribute('data-src');
+                        allLoadedScripts[key].removeAttribute('type');
+                    }   
+                }
+                let category = allLoadedScripts[key].getAttribute('data-cookiecategory');
+            }else{
+                allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
+                allLoadedScripts[key].removeAttribute('data-src');
+                allLoadedScripts[key].removeAttribute('type');
+            }
         }
     });
 
@@ -216,12 +243,12 @@ const cookieConsentInit = () => {
     const cookieSet = Cookies.get(cookieConsentOptions.gdprOptions.consentCookie.name);
     const cookieSetState = Cookies.get(cookieConsentOptions.gdprOptions.consentState.name);
 
+
     let cookieOptions = Cookies.get(cookieConsentOptions.gdprOptions.consentOptions.name);
     
     //set global Options from Cookie
     if (typeof cookieOptions !== 'undefined') {
         cookieOptions = JSON.parse(cookieOptions);
-        console.log(cookieOptions);
         cookieConsentOptions.cookieCategories = cookieOptions;
         document.getElementById('gdpr-banner-switch-statistics').checked = cookieOptions[1].accepted;
         document.getElementById('gdpr-banner-switch-marketing').checked = cookieOptions[2].accepted;
@@ -235,6 +262,9 @@ const cookieConsentInit = () => {
     } else if (cookieSet === 'true' && cookieSetState === 'none') {
         closeCookieConsent();
         removeScripts();
+    } else if (cookieSet === 'true' && cookieSetState === 'partial'){
+        resetScripts(cookieOptions);
+        closeCookieConsent();
     } else {
         resetScripts();
         closeCookieConsent();
