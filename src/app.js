@@ -52,20 +52,25 @@ const switchMarketing = document.getElementById(cookieConsentOptions.switchMarke
 const acceptSelection = document.getElementById(cookieConsentOptions.acceptSelection);
 
 
-switchStatistics.addEventListener('click', e => {
-    console.log('switchstatistics');
-    let checked = document.getElementById('gdpr-banner-switch-statistics').checked;
-    cookieConsentOptions.cookieCategories[1].accepted = checked;
+if (switchStatistics !== null){
+    switchStatistics.addEventListener('click', e => {
 
-    Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
-});
+        let checked = document.getElementById('gdpr-banner-switch-statistics').checked;
+        cookieConsentOptions.cookieCategories[1].accepted = checked;
 
-switchMarketing.addEventListener('click', e => {
-    console.log('switchMarketing');
-    let checked = document.getElementById('gdpr-banner-switch-marketing').checked;
-    cookieConsentOptions.cookieCategories[2].accepted = checked;
-    Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
-});
+        Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
+    });
+
+}
+if (switchMarketing !== null){
+    switchMarketing.addEventListener('click', e => {
+
+        let checked = document.getElementById('gdpr-banner-switch-marketing').checked;
+        cookieConsentOptions.cookieCategories[2].accepted = checked;
+        Cookies.set(cookieConsentOptions.gdprOptions.consentOptions.name, JSON.stringify(cookieConsentOptions.cookieCategories), { expires: 365, path: '/', sameSite: 'strict' });
+    });
+}
+
 
 const openCookieConsent = () => {
     bannerMainElement.classList.remove("gdpr-cookieconsent-hidden");
@@ -113,13 +118,16 @@ bannerEditButton.addEventListener('click', e => {
     openAdditional();
 });
 
-acceptSelection.addEventListener('click', e => {
-    e.preventDefault();
-    closeCookieConsent();
-    cookieConsentSetStateCookie('partial');
-    cookieConsentSetCookie(true);
+if (acceptSelection ==! null){
+    acceptSelection.addEventListener('click', e => {
+        e.preventDefault();
+        closeCookieConsent();
+        cookieConsentSetStateCookie('partial');
+        cookieConsentSetCookie(true);
 
-});
+    });
+
+}
 
 bannerDeclineButton.addEventListener('click', e => {
     e.preventDefault();
