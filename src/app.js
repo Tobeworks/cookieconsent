@@ -6,7 +6,6 @@ import './scss/templates/basic/styles.scss';
 
 
 
-
 const cookieConsentOptions = {
     mainElement: "gdpr-banner",
     accept: 'gdpr-banner-accept',
