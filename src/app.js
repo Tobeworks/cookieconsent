@@ -13,7 +13,7 @@ const cookieConsentOptions = {
     additional: 'gdpr-banner_additional',
     edit: 'gdpr-banner-edit',
     gear: 'gdpr-banner-gear',
-    acceptSelection:'gdpr-banner-accept-selection',
+    acceptSelection: 'gdpr-banner-accept-selection',
     switchStatistics: 'gdpr-banner-switch-statistics',
     switchMarketing: 'gdpr-banner-switch-marketing',
     cookies: ['_gat_gtag_UA_338528_1', '_ga', '_gid', 'testscript', '__gads'],
@@ -93,7 +93,7 @@ const openAdditional = () => {
     if (editModus == 'closed') {
         openCookieAdditional();
     } else {
-        closeCookieAdditional();    
+        closeCookieAdditional();
     }
 }
 
@@ -117,7 +117,7 @@ acceptSelection.addEventListener('click', e => {
     closeCookieConsent();
     cookieConsentSetStateCookie('partial');
     cookieConsentSetCookie(true);
-
+    closeCookieConsent();
 });
 
 bannerDeclineButton.addEventListener('click', e => {
@@ -136,9 +136,12 @@ const cookieConsentAcceptAll = () => {
     resetScripts();
 }
 const cookieConsentDeclineAll = () => {
-    cookieConsentSetCookie(true);
+
+
     cookieConsentSetStateCookie('none');
+
     removeCookiesAndScripts();
+    cookieConsentSetCookie(true);
 }
 
 const cookieConsentSetCookie = val => {
@@ -194,24 +197,24 @@ const removeScripts = () => {
 }
 
 const resetScripts = (marker = false) => {
-    
+
     const allLoadedScripts = document.querySelectorAll("script");
     const ma = marker;
 
     allLoadedScripts.forEach((val, key) => {
         if (cookieConsentOptions.scripts.includes(allLoadedScripts[key].getAttribute('data-src'))) {
-            
+
             if (Array.isArray(ma) === true) {
                 for (let index = 0; index < ma.length; index++) {
                     const element = ma[index];
-                    if (element.category !== 'neccesary' && element.accepted === true){
+                    if (element.category !== 'neccesary' && element.accepted === true) {
                         allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
                         allLoadedScripts[key].removeAttribute('data-src');
                         allLoadedScripts[key].removeAttribute('type');
-                    }   
+                    }
                 }
                 let category = allLoadedScripts[key].getAttribute('data-cookiecategory');
-            }else{
+            } else {
                 allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
                 allLoadedScripts[key].removeAttribute('data-src');
                 allLoadedScripts[key].removeAttribute('type');
@@ -244,7 +247,7 @@ const cookieConsentInit = () => {
 
 
     let cookieOptions = Cookies.get(cookieConsentOptions.gdprOptions.consentOptions.name);
-    
+
     //set global Options from Cookie
     if (typeof cookieOptions !== 'undefined') {
         cookieOptions = JSON.parse(cookieOptions);
@@ -261,7 +264,7 @@ const cookieConsentInit = () => {
     } else if (cookieSet === 'true' && cookieSetState === 'none') {
         closeCookieConsent();
         removeScripts();
-    } else if (cookieSet === 'true' && cookieSetState === 'partial'){
+    } else if (cookieSet === 'true' && cookieSetState === 'partial') {
         resetScripts(cookieOptions);
         closeCookieConsent();
     } else {
