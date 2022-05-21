@@ -25,7 +25,8 @@ const cookieConsentOptions = {
             'https://dev.restposten24.de/tmp/cookieconsent2/src/testcookie.js',
             'https://t.adcell.com/js/trad.js',
             'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
-            'https://tpc.googlesyndication.com/generate_204?GKwskA']
+            'https://tpc.googlesyndication.com/generate_204?GKwskA',
+            'http://work.tobeworks.de/cookieconsent/src/testcookie.js']
 
     ,
     gdprOptions: {
@@ -136,12 +137,11 @@ const cookieConsentAcceptAll = () => {
     resetScripts();
 }
 const cookieConsentDeclineAll = () => {
-
-
-    cookieConsentSetStateCookie('none');
-
     removeCookiesAndScripts();
     cookieConsentSetCookie(true);
+    cookieConsentSetStateCookie('none');
+
+
 }
 
 const cookieConsentSetCookie = val => {
@@ -199,21 +199,30 @@ const removeScripts = () => {
 const resetScripts = (marker = false) => {
 
     const allLoadedScripts = document.querySelectorAll("script");
-    const ma = marker;
+    const markerIntern = marker;
 
     allLoadedScripts.forEach((val, key) => {
-        if (cookieConsentOptions.scripts.includes(allLoadedScripts[key].getAttribute('data-src'))) {
 
-            if (Array.isArray(ma) === true) {
-                for (let index = 0; index < ma.length; index++) {
-                    const element = ma[index];
+        if (cookieConsentOptions.scripts.includes(allLoadedScripts[key].getAttribute('data-src'))) {
+            // console.log(allLoadedScripts[key].getAttribute('data-src'));
+
+            if (Array.isArray(markerIntern) === true) {
+
+                for (let index = 0; index < markerIntern.length; index++) {
+                    const element = markerIntern[index];
                     if (element.category !== 'neccesary' && element.accepted === true) {
-                        allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
-                        allLoadedScripts[key].removeAttribute('data-src');
-                        allLoadedScripts[key].removeAttribute('type');
+
+                        if (allLoadedScripts[key].getAttribute('data-cookiecategory') == element.category) {
+                            console.log(element.category);
+                            console.log(allLoadedScripts[key]);
+                            allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
+                            allLoadedScripts[key].removeAttribute('data-src');
+                            allLoadedScripts[key].removeAttribute('type');
+                        }
                     }
                 }
-                let category = allLoadedScripts[key].getAttribute('data-cookiecategory');
+
+                //let category = allLoadedScripts[key].getAttribute('data-cookiecategory');
             } else {
                 allLoadedScripts[key].src = allLoadedScripts[key].getAttribute('data-src');
                 allLoadedScripts[key].removeAttribute('data-src');
@@ -223,7 +232,7 @@ const resetScripts = (marker = false) => {
     });
 
     const opt = document.querySelectorAll(".gdpr-opt");
-    let res;
+    // let res;
     opt.forEach((val, key) => {
         opt[key].removeAttribute('type');
         opt[key].removeAttribute('src');
@@ -247,7 +256,7 @@ const cookieConsentInit = () => {
 
 
     let cookieOptions = Cookies.get(cookieConsentOptions.gdprOptions.consentOptions.name);
-
+    //console.log('bar', cookieOptions);
     //set global Options from Cookie
     if (typeof cookieOptions !== 'undefined') {
         cookieOptions = JSON.parse(cookieOptions);
@@ -256,17 +265,23 @@ const cookieConsentInit = () => {
         document.getElementById('gdpr-banner-switch-marketing').checked = cookieOptions[2].accepted;
     } else {
         cookieOptions = cookieConsentOptions.gdprOptions.consentOptions;
+
     }
+
+
 
     if (typeof cookieSet === 'undefined') {
         openCookieConsent();
         cookieConsentSetStateCookie('all');
     } else if (cookieSet === 'true' && cookieSetState === 'none') {
-        closeCookieConsent();
         removeScripts();
+        closeCookieConsent();
     } else if (cookieSet === 'true' && cookieSetState === 'partial') {
+        console.log('Partial', cookieOptions);
+
         resetScripts(cookieOptions);
         closeCookieConsent();
+
     } else {
         resetScripts();
         closeCookieConsent();

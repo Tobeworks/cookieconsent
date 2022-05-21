@@ -9,5 +9,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "no-undef": "warn",
+        "no-unused-vars": "warn"
     }
 };
